@@ -57,18 +57,18 @@ def matches_trigger(comment_body):
     return any(word in body for word in TRIGGER_WORDS)
 
 def generate_llm_reply(comment_body):
-    prompt = LLM_PROMPT_TEMPLATE.format(comment_body=comment_body.strip())
-    try:
-        client = openai.OpenAI(api_key=OPENAI_API_KEY)
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": prompt}],
-            max_tokens=90,
-            temperature=0.9,
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        logger.warning(f"OpenAI error or quota reached: {e}; using static fallback reply.")
+   # prompt = LLM_PROMPT_TEMPLATE.format(comment_body=comment_body.strip())
+   # try:
+      #  client = openai.OpenAI(api_key=OPENAI_API_KEY)
+       # response = client.chat.completions.create(
+         #   model="gpt-3.5-turbo",
+        #    messages=[{"role": "system", "content": prompt}],
+         #   max_tokens=90,
+        #    temperature=0.9,
+      #  )
+       # return response.choices[0].message.content.strip()
+    #except Exception as e:
+        #logger.warning(f"OpenAI error or quota reached: {e}; using static fallback reply.")
         return "here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini"
 
 def process_comments_in_subreddit(reddit, subreddit_name, comments_replied_to):
