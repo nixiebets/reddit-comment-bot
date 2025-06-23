@@ -78,8 +78,8 @@ def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_repl
     for comment in subreddit.comments(limit=1000):
               print("Inside comment loop")
         
-                    llm_reply = generate_llm_reply(comment.body)
-                    comment.reply(llm_reply)
+    #llm_reply = generate_llm_reply(comment.body)
+                   # comment.reply(llm_reply)
                     print(f"Replied to comment {comment.id}")
                     comments_replied_to.append(comment.id)
                     with open("comments_replied_to.txt", "a") as f:
