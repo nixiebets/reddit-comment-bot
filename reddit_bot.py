@@ -75,12 +75,15 @@ def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_repl
     logger.info(f"Searching last 1,000 comments in r/{subreddit_name}")
     subreddit = reddit_instance.subreddit(subreddit_name)
     print("About to iterate comments")
-    for comment in subreddit.comments(limit=1000):
-              print("Inside comment loop")
-        
-    #llm_reply = generate_llm_reply(comment.body)
-                   # comment.reply(llm_reply)
+    try:
+        for comment in subreddit.comments(limit=1000):
+            print("Inside comment loop")
+            try:
+                # Replace this with your real trigger logic if needed
+                if comment.id not in comments_replied_to:
                     print(f"Replied to comment {comment.id}")
+                    # Static reply for now
+                    comment.reply("here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini")
                     comments_replied_to.append(comment.id)
                     with open("comments_replied_to.txt", "a") as f:
                         f.write(comment.id + "\n")
@@ -108,8 +111,9 @@ def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_repl
         print(f"Subreddit {subreddit_name} not found or is private/banned.")
     except Exception as e:
         print(f"General error: {e}")
+    print("Finished processing subreddit")
     return False
-  print("Finished processing subreddit")
+
 
 # ---- MAIN BLOCK (AT THE BOTTOM!!) ----
 if __name__ == "__main__":
