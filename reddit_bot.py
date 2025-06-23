@@ -38,24 +38,26 @@ def handle_rate_limit(api_exception, retry_attempts=3):
 # Function to log in to Reddit
 def bot_login():
     logger.info("Logging in...")
-    
+
     try:
         reddit_instance = praw.Reddit(
-            username=REDDIT_USERNAME,
-            password=REDDIT_PASSWORD,
             client_id=REDDIT_CLIENT_ID,
             client_secret=REDDIT_CLIENT_SECRET,
+            username=REDDIT_USERNAME,
+            password=REDDIT_PASSWORD,
             user_agent=REDDIT_USER_AGENT,
-            check_for_async=False  # ← this disables token refresh compatibility issues
+            check_for_async=False
         )
         logger.info(f"Logged in as: {reddit_instance.user.me()}")
         return reddit_instance
+
     except prawcore.exceptions.ResponseException as e:
         logger.error(f"Login failed: {e}")
         raise
     except Exception as e:
         logger.exception(f"Unexpected error during login: {e}")
         raise
+
 
 # Function to run the bot
 def run_bot(reddit_instance, comments_replied_to):
