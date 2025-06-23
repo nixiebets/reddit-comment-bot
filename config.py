@@ -6,33 +6,26 @@ REDDIT_CLIENT_ID = os.environ["REDDIT_CLIENT_ID"]
 REDDIT_CLIENT_SECRET = os.environ["REDDIT_SECRET"]
 REDDIT_USER_AGENT = os.environ["REDDIT_USER_AGENT"]
 
-# config.py
-TARGET_SUBREDDITS = ["ChatGPT",
-   "ArtificialIntelligence",
-    "PromptEngineering",
-    "Automation",
-    "Notion",
-    "Productivity",
-    "ObsidianMD",
-    "SideProject",
-    "Entrepreneur",
-    "SideHustle",
-    "Gumroad",
-    "Passive_Income",
-    "SaaS",
-    "InternetIsBeautiful",
-    "Copywriting",
-    "ContentCreators",
-    "SocialMedia",
-    "NoCode",
-    "TechSupport",
-    "Freelance",
-    "SmallBusiness",
-    "LifeProTips",
-    "GetDisciplined",
-    "SelfImprovement",
-    "Workspaces"]
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
-TARGET_STRING = ["workflow", "automation", "template", "prompt", "system", "ai", "streamline", "optimize"]
-REPLY_MESSAGE = "here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini"
+TARGET_SUBREDDITS = [
+    "ChatGPT", "ArtificialIntelligence", "PromptEngineering", "Automation",
+    "Notion", "Productivity", "ObsidianMD", "SideProject", "Entrepreneur", "SideHustle",
+    "Gumroad", "Passive_Income", "SaaS", "InternetIsBeautiful", "Copywriting", "ContentCreators",
+    "SocialMedia", "NoCode", "TechSupport", "Freelance", "SmallBusiness", "LifeProTips",
+    "GetDisciplined", "SelfImprovement", "Workspaces"
+]
+
+TRIGGER_WORDS = [
+    "workflow", "automation", "template", "prompt", "system", "ai", "streamline", "optimize"
+]
+
+LLM_PROMPT_TEMPLATE = (
+    "You're a helpful automation expert on Reddit. "
+    "Someone just posted this comment: \"{comment_body}\"\n\n"
+    "Reply with a friendly, concise suggestion about workflow automation, "
+    "and mention this resource: https://cutt.ly/promptkitmini. "
+    "Be informal but not spammy, and avoid repeating yourself."
+)
+
 SLEEP_DURATION = 10
