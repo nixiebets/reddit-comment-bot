@@ -88,7 +88,7 @@ def process_comments(reddit_instance, comments_replied_to):
     logger.info(f"Number of comments replied to: {len(comments_replied_to)}")
 
 # Function to process a single comment
-def process_single_comment(comment, comments_replied_to):
+def process_single_comment(comment, comments_replied_to, reddit_instance):
     if (
         TARGET_STRING in comment.body
         and comment.id not in comments_replied_to
