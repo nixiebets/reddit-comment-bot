@@ -1,16 +1,12 @@
-# Reddit account credentials
-REDDIT_USERNAME = "journal_fiend"
-REDDIT_PASSWORD = ".3ds0+V29D43"
+import os
 
-# Reddit API credentials
-REDDIT_CLIENT_ID = "wgKIu40KpFoFWNUDYfpXQ"
-REDDIT_CLIENT_SECRET = "jh08uSTF1a8R8LsJskztjHGLNGooVg"
+REDDIT_USERNAME = os.environ["REDDIT_USERNAME"]
+REDDIT_PASSWORD = os.environ["REDDIT_PASSWORD"]
+REDDIT_CLIENT_ID = os.environ["REDDIT_CLIENT_ID"]
+REDDIT_CLIENT_SECRET = os.environ["REDDIT_SECRET"]
+REDDIT_USER_AGENT = os.environ["REDDIT_USER_AGENT"]
 
-# Bot configuration
-REDDIT_USER_AGENT = "promptkit-bot by u/journal_fiend"
-TARGET_SUBREDDIT = "ChatGPT"  # Replace with your desired subreddit
-TARGET_STRING = "prompt?"  # Replace with your desired search string
-REPLY_MESSAGE = "Solid resource for automating tasks with AI if you’re stuck in decision fatigue. Free version here: https://cutt.ly/promptkitmini"  # Replace with your desired reply message
-
-# Bot behavior configuration
-SLEEP_DURATION = 10  # Adjust the sleep duration as needed in seconds
+TARGET_SUBREDDIT = "ChatGPT"  # or whichever you're testing
+TARGET_STRING = "workflow"
+REPLY_MESSAGE = "here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini"
+SLEEP_DURATION = 10
