@@ -33,6 +33,6 @@ TARGET_SUBREDDITS = ["ChatGPT",
     "SelfImprovement",
     "Workspaces"]
 
-TARGET_STRING = "workflow"
+TARGET_STRING = ["workflow", "automation", "template", "prompt", "system", "ai", "streamline", "optimize"]
 REPLY_MESSAGE = "here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini"
 SLEEP_DURATION = 10
