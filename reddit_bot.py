@@ -77,46 +77,23 @@ def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_repl
     print("About to iterate comments")
     try:
        for comment in subreddit.comments(limit=1000):
-    # Skip AutoModerator, yourself, and deleted users
-            if (
+    # Skip bots and deleted users
+    if (
         str(comment.author).lower() == "automoderator"
         or str(comment.author).lower() == str(reddit_instance.user.me()).lower()
         or comment.author is None
     ):
-            continue
-                if comment.id not in comments_replied_to:
-                    print(f"Replied to comment {comment.id}")
-                    # Static reply for now
-                    comment.reply("here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini")
-                    comments_replied_to.append(comment.id)
-                    with open("comments_replied_to.txt", "a") as f:
-                        f.write(comment.id + "\n")
-                    return True  # Only reply once per run
-                except praw.exceptions.RedditAPIException as api_exception:
-                    for error in api_exception.items:
-                        if error.error_type == "RATELIMIT":
-                        m = re.search(r"(\d+) (minutes|minute|seconds|second)", error.message)
-                            if m:
-                            num = int(m.group(1))
-                                if "minute" in m.group(2):
-                                sleep_time = num * 60
-                                    else:
-                                sleep_time = num
-                            else:
-                            sleep_time = 600  # default 10 minutes
-                        print(f"Hit rate limit, sleeping for {sleep_time} seconds.")
-                        time.sleep(sleep_time)
-                        break
-                    else:
-                        print(f"Reddit error: {error.message}")
-            except Exception as e:
-                print(f"Error replying: {e}")
-    except prawcore.exceptions.NotFound:
-        print(f"Subreddit {subreddit_name} not found or is private/banned.")
-    except Exception as e:
-        print(f"General error: {e}")
-    print("Finished processing subreddit")
-    return False
+        continue  # Skip to next comment
+
+    # (your main logic goes here)
+    if comment.id not in comments_replied_to:
+        print(f"Replied to comment {comment.id} (by {comment.author})")
+        comment.reply("found me a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini")
+        comments_replied_to.append(comment.id)
+        with open("comments_replied_to.txt", "a") as f:
+            f.write(comment.id + "\n")
+        return True  # Only reply once per run
+
 
 
 # ---- MAIN BLOCK (AT THE BOTTOM!!) ----
