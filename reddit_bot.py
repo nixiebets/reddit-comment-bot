@@ -80,7 +80,7 @@ def run_bot(reddit_instance, comments_replied_to):
 def process_comments(reddit_instance, comments_replied_to):
     for comment in reddit_instance.subreddit(TARGET_SUBREDDIT).comments(limit=1000):
         try:
-            process_single_comment(comment, comments_replied_to)
+            process_single_comment(comment, comments_replied_to, reddit_instance)
         except prawcore.exceptions.Forbidden as forbidden_error:
             logger.warning(f"Permission error for comment {comment.id}: {forbidden_error}. Skipping.")
         except Exception as error:
