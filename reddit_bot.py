@@ -5,6 +5,7 @@ import prawcore
 import time
 import os
 import logging
+import json
 from config import (
     REDDIT_USERNAME,
     REDDIT_PASSWORD,
@@ -16,6 +17,46 @@ from config import (
     REPLY_MESSAGE,
     SLEEP_DURATION,
 )
+import random
+from config import TARGET_SUBREDDITS
+
+HISTORY_FILE = "used_subreddits.json"
+
+# Load previously used subreddits
+if os.path.exists(HISTORY_FILE):
+    with open(HISTORY_FILE, "r") as f:
+        used = set(json.load(f))
+else:
+    used = set()
+
+# Figure out which subreddits are unused this cycle
+unused = [s for s in TARGET_SUBREDDITS if s not in used]
+if not unused:
+    used = set()
+    unused = list(TARGET_SUBREDDITS)
+
+# Pick one at random (or use all in shuffled order for batch posting)
+random.shuffle(unused)
+for sub_name in unused:
+    subreddit = reddit.subreddit(sub_name)
+    # ...your logic...
+    print(f"Posting to r/{sub_name}...")
+    # Add to history and save
+    used.add(sub_name)
+    with open(HISTORY_FILE, "w") as f:
+        json.dump(list(used), f)
+    # Optional: sleep/delay here to mimic human posting
+
+# Shuffle the list so order is random each run
+subreddits_to_use = TARGET_SUBREDDITS[:]
+random.shuffle(subreddits_to_use)
+
+# Loop through and perform your actions (posting, commenting, etc)
+for sub_name in subreddits_to_use:
+    subreddit = reddit.subreddit(sub_name)
+    # Your logic here, e.g., search for TARGET_STRING and reply
+    print(f"Working in r/{sub_name}")
+    # ...existing logic for finding and replying to comments/posts...
 
 # Configuring logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
