@@ -78,12 +78,12 @@ def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_repl
     try:
        for comment in subreddit.comments(limit=1000):
     # Skip AutoModerator, yourself, and deleted users
-    if (
+            if (
         str(comment.author).lower() == "automoderator"
         or str(comment.author).lower() == str(reddit_instance.user.me()).lower()
         or comment.author is None
     ):
-        continue
+            continue
                 if comment.id not in comments_replied_to:
                     print(f"Replied to comment {comment.id}")
                     # Static reply for now
@@ -92,17 +92,17 @@ def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_repl
                     with open("comments_replied_to.txt", "a") as f:
                         f.write(comment.id + "\n")
                     return True  # Only reply once per run
-            except praw.exceptions.RedditAPIException as api_exception:
-                for error in api_exception.items:
-                    if error.error_type == "RATELIMIT":
+                except praw.exceptions.RedditAPIException as api_exception:
+                    for error in api_exception.items:
+                        if error.error_type == "RATELIMIT":
                         m = re.search(r"(\d+) (minutes|minute|seconds|second)", error.message)
-                        if m:
+                            if m:
                             num = int(m.group(1))
-                            if "minute" in m.group(2):
+                                if "minute" in m.group(2):
                                 sleep_time = num * 60
-                            else:
+                                    else:
                                 sleep_time = num
-                        else:
+                            else:
                             sleep_time = 600  # default 10 minutes
                         print(f"Hit rate limit, sleeping for {sleep_time} seconds.")
                         time.sleep(sleep_time)
