@@ -60,19 +60,16 @@ def matches_trigger(comment_body):
 import openai
 
 def generate_llm_reply(comment_body):
-    prompt = f"""You're a helpful Reddit bot. Reply to the following comment with a concise, friendly message that relates to the topic, then recommend the resource https://cutt.ly/promptkitmini.
-
-Comment: {comment_body}
-Reply:"""
-    client = openai.OpenAI(api_key=OPENAI_API_KEY)
-    try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=90,
-            temperature=0.8,
-        )
-        return response.choices[0].message.content.strip()
+    prompt = LLM_PROMPT_TEMPLATE.format(comment_body=comment_body.strip())
+    response = openai.ChatCompletion.create(
+        api_key=OPENAI_API_KEY,
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": prompt}],
+        max_tokens=90,
+        temperature=0.9,
+    )
+    return response.choices[0].message["content"].strip()
+    
     except openai.RateLimitError:
         print("Quota exceeded. Using static fallback reply.")
         return "here's a great resource for automating tasks with AI: https://cutt.ly/promptkitmini"
