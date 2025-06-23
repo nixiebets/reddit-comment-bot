@@ -45,9 +45,10 @@ def bot_login():
             password=REDDIT_PASSWORD,
             client_id=REDDIT_CLIENT_ID,
             client_secret=REDDIT_CLIENT_SECRET,
-            user_agent=REDDIT_USER_AGENT
+            user_agent=REDDIT_USER_AGENT,
+            check_for_async=False  # ← this disables token refresh compatibility issues
         )
-        logger.info("Logged in!")
+        logger.info(f"Logged in as: {reddit_instance.user.me()}")
         return reddit_instance
     except prawcore.exceptions.ResponseException as e:
         logger.error(f"Login failed: {e}")
