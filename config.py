@@ -33,33 +33,6 @@ TARGET_SUBREDDITS = ["ChatGPT",
     "SelfImprovement",
     "Workspaces"]
 
-# reddit_bot.py
-subreddit = reddit.subreddit("+".join("ChatGPT",
-    "ArtificialIntelligence",
-    "PromptEngineering",
-    "Automation",
-    "Notion",
-    "Productivity",
-    "ObsidianMD",
-    "SideProject",
-    "Entrepreneur",
-    "SideHustle",
-    "Gumroad",
-    "Passive_Income",
-    "SaaS",
-    "InternetIsBeautiful",
-    "Copywriting",
-    "ContentCreators",
-    "SocialMedia",
-    "NoCode",
-    "TechSupport",
-    "Freelance",
-    "SmallBusiness",
-    "LifeProTips",
-    "GetDisciplined",
-    "SelfImprovement",
-    "Workspaces"))
-
 TARGET_STRING = "workflow"
 REPLY_MESSAGE = "here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini"
 SLEEP_DURATION = 10
