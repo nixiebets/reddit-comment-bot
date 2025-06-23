@@ -38,7 +38,8 @@ def handle_rate_limit(api_exception, retry_attempts=3):
 # Function to log in to Reddit
 def bot_login():
     logger.info("Logging in...")
-
+    logger.info(f"client_id: {REDDIT_CLIENT_ID}")
+    logger.info(f"user_agent: {REDDIT_USER_AGENT}")
     try:
         reddit_instance = praw.Reddit(
             client_id=REDDIT_CLIENT_ID,
