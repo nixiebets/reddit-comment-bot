@@ -61,22 +61,20 @@ import openai
 
 def generate_llm_reply(comment_body):
     prompt = LLM_PROMPT_TEMPLATE.format(comment_body=comment_body.strip())
-    response = openai.ChatCompletion.create(
-        api_key=OPENAI_API_KEY,
-        model="gpt-3.5-turbo",
-        messages=[{"role": "system", "content": prompt}],
-        max_tokens=90,
-        temperature=0.9,
-    )
-    return response.choices[0].message["content"].strip()
-    
-    except openai.RateLimitError:
-        print("Quota exceeded. Using static fallback reply.")
-        return "here's a great resource for automating tasks with AI: https://cutt.ly/promptkitmini"
+    try:
+        import openai
+        client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "system", "content": prompt}],
+            max_tokens=90,
+            temperature=0.9,
+        )
+        return response.choices[0].message.content.strip()
     except Exception as e:
-        print(f"Unexpected error from OpenAI: {e}")
-        return "found a great resource for automating tasks with AI: https://cutt.ly/promptkitmini"
-        
+        # Fallback for quota/rate/connection errors
+        logger.warning(f"OpenAI error or quota reached: {e}; using static fallback reply.")
+        return "here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini"
 
 import time
 import praw
