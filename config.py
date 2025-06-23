@@ -1,6 +1,6 @@
 # Reddit account credentials
 REDDIT_USERNAME = "journal_fiend"
-REDDIT_PASSWORD = "thisisapassword1234"
+REDDIT_PASSWORD = ".3ds0+V29D43"
 
 # Reddit API credentials
 REDDIT_CLIENT_ID = "wgKIu40KpFoFWNUDYfpXQ"
