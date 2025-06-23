@@ -9,7 +9,7 @@ REDDIT_CLIENT_SECRET = "jh08uSTF1a8R8LsJskztjHGLNGooVg"
 # Bot configuration
 REDDIT_USER_AGENT = "promptkit-bot by u/journal_fiend"
 TARGET_SUBREDDIT = "ChatGPT"  # Replace with your desired subreddit
-TARGET_STRING = "sample user comment"  # Replace with your desired search string
+TARGET_STRING = "prompt?"  # Replace with your desired search string
 REPLY_MESSAGE = "Solid resource for automating tasks with AI if you’re stuck in decision fatigue. Free version here: https://cutt.ly/promptkitmini"  # Replace with your desired reply message
 
 # Bot behavior configuration
