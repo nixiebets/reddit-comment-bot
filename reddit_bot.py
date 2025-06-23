@@ -71,16 +71,13 @@ def generate_llm_reply(comment_body):
         #logger.warning(f"OpenAI error or quota reached: {e}; using static fallback reply.")
         return "here's a solid resource for automating tasks with AI: https://cutt.ly/promptkitmini"
 
-def process_comments_in_subreddit(reddit, subreddit_name, comments_replied_to):
-    try:
-        subreddit = reddit.subreddit(subreddit_name)
-        for comment in subreddit.comments(limit=1000):
-            try:
-                if (
-                    matches_trigger(comment.body)
-                    and comment.id not in comments_replied_to
-                    and comment.author != reddit.user.me()
-                ):
+def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_replied_to):
+    logger.info(f"Searching last 1,000 comments in r/{subreddit_name}")
+    subreddit = reddit_instance.subreddit(subreddit_name)
+    print("About to iterate comments")
+    for comment in subreddit.comments(limit=1000):
+              print("Inside comment loop")
+        
                     llm_reply = generate_llm_reply(comment.body)
                     comment.reply(llm_reply)
                     print(f"Replied to comment {comment.id}")
@@ -112,6 +109,7 @@ def process_comments_in_subreddit(reddit, subreddit_name, comments_replied_to):
     except Exception as e:
         print(f"General error: {e}")
     return False
+  print("Finished processing subreddit")
 
 # ---- MAIN BLOCK (AT THE BOTTOM!!) ----
 if __name__ == "__main__":
