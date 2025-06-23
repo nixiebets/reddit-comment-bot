@@ -26,6 +26,8 @@ LLM_PROMPT_TEMPLATE = (
     "Reply with a friendly, concise suggestion about workflow automation, "
     "and mention this resource: https://cutt.ly/promptkitmini. "
     "Be informal but not spammy, and avoid repeating yourself."
+    "avoid using the em dash (—) at all times. not negotiable."
+    "use casual tone as if it were a good friend over the internet"
 )
 
 SLEEP_DURATION = 10
