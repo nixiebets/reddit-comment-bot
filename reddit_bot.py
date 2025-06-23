@@ -76,10 +76,14 @@ def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_repl
     subreddit = reddit_instance.subreddit(subreddit_name)
     print("About to iterate comments")
     try:
-        for comment in subreddit.comments(limit=1000):
-            print("Inside comment loop")
-            try:
-                # Replace this with your real trigger logic if needed
+       for comment in subreddit.comments(limit=1000):
+    # Skip AutoModerator, yourself, and deleted users
+    if (
+        str(comment.author).lower() == "automoderator"
+        or str(comment.author).lower() == str(reddit_instance.user.me()).lower()
+        or comment.author is None
+    ):
+        continue
                 if comment.id not in comments_replied_to:
                     print(f"Replied to comment {comment.id}")
                     # Static reply for now
