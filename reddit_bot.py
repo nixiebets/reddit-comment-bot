@@ -5,6 +5,7 @@ import os
 import logging
 import json
 import random
+import re
 from config import (
     REDDIT_USERNAME,
     REDDIT_PASSWORD,
@@ -42,48 +43,6 @@ def get_saved_comments():
     with open("comments_replied_to.txt", "r") as f:
         return [line.strip() for line in f if line.strip()]
 
-def handle_rate_limit(api_exception, retry_attempts=3):
-    for attempt in range(retry_attempts):
-        retry_after = api_exception.response.headers.get('retry-after')
-        if retry_after:
-            logger.warning(f"Rate limited. Retrying after {retry_after} seconds. Attempt {attempt + 1}/{retry_attempts}")
-            time.sleep(int(retry_after) + 1)
-        else:
-            logger.error(f"API Exception: {api_exception}")
-            break
-    else:
-        logger.error("Exceeded retry attempts. Aborting.")
-        raise
-
-def process_single_comment(comment, comments_replied_to, reddit_instance):
-    if (
-        TARGET_STRING in comment.body
-        and comment.id not in comments_replied_to
-        and comment.author != reddit_instance.user.me()
-    ):
-        logger.info(f"String with '{TARGET_STRING}' found in comment {comment.id}")
-        try:
-            comment.reply(REPLY_MESSAGE)
-            logger.info(f"Replied to comment {comment.id}")
-            comments_replied_to.append(comment.id)
-            with open("comments_replied_to.txt", "a") as f:
-                f.write(comment.id + "\n")
-        except prawcore.exceptions.Forbidden as forbidden_error:
-            logger.warning(f"Permission error for comment {comment.id}: {forbidden_error}. Skipping.")
-        except Exception as reply_error:
-            logger.exception(f"Error while replying to comment {comment.id}: {reply_error}")
-
-def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_replied_to):
-    logger.info(f"Searching last 1,000 comments in r/{subreddit_name}")
-    subreddit = reddit_instance.subreddit(subreddit_name)
-    for comment in subreddit.comments(limit=1000):
-        try:
-            process_single_comment(comment, comments_replied_to, reddit_instance)
-        except prawcore.exceptions.Forbidden as forbidden_error:
-            logger.warning(f"Permission error for comment {comment.id}: {forbidden_error}. Skipping.")
-        except Exception as error:
-            logger.exception(f"Error processing comment {comment.id}: {error}")
-
 def get_next_subreddit():
     # Load used subreddit history
     if os.path.exists(HISTORY_FILE):
@@ -102,6 +61,45 @@ def get_next_subreddit():
         json.dump(list(used), f)
     return sub_name
 
+def process_comments_in_subreddit(reddit_instance, subreddit_name, comments_replied_to):
+    logger.info(f"Searching last 1,000 comments in r/{subreddit_name}")
+    subreddit = reddit_instance.subreddit(subreddit_name)
+    for comment in subreddit.comments(limit=1000):
+        try:
+            if (
+                TARGET_STRING in comment.body
+                and comment.id not in comments_replied_to
+                and comment.author != reddit_instance.user.me()
+            ):
+                logger.info(f"String with '{TARGET_STRING}' found in comment {comment.id}")
+                comment.reply(REPLY_MESSAGE)
+                logger.info(f"Replied to comment {comment.id}")
+                comments_replied_to.append(comment.id)
+                with open("comments_replied_to.txt", "a") as f:
+                    f.write(comment.id + "\n")
+                return True  # Replied, so stop for this run
+        except praw.exceptions.APIException as api_exception:
+            if api_exception.error_type == "RATELIMIT":
+                # Parse the ratelimit wait time and sleep
+                msg = api_exception.message
+                minutes = re.search(r"(\d+) minutes?", msg)
+                seconds = re.search(r"(\d+) seconds?", msg)
+                sleep_time = 60  # Default to 1 minute if parsing fails
+                if minutes:
+                    sleep_time = int(minutes.group(1)) * 60 + 10
+                elif seconds:
+                    sleep_time = int(seconds.group(1)) + 10
+                logger.warning(f"RATELIMIT: Sleeping for {sleep_time} seconds")
+                time.sleep(sleep_time)
+                return False  # Stop, let the main loop resume after sleep
+            else:
+                logger.exception(f"API error while replying: {api_exception}")
+        except prawcore.exceptions.Forbidden as forbidden_error:
+            logger.warning(f"Permission error for comment {comment.id}: {forbidden_error}. Skipping.")
+        except Exception as error:
+            logger.exception(f"Error processing comment {comment.id}: {error}")
+    return False  # No reply made
+
 if __name__ == "__main__":
     reddit_instance = bot_login()
     comments_replied_to = get_saved_comments()
@@ -111,11 +109,9 @@ if __name__ == "__main__":
         try:
             sub_name = get_next_subreddit()
             logger.info(f"Processing subreddit: r/{sub_name}")
-            process_comments_in_subreddit(reddit_instance, sub_name, comments_replied_to)
+            replied = process_comments_in_subreddit(reddit_instance, sub_name, comments_replied_to)
             logger.info(f"Sleeping for {SLEEP_DURATION} seconds...")
             time.sleep(int(SLEEP_DURATION))
-        except praw.exceptions.APIException as api_exception:
-            handle_rate_limit(api_exception)
         except Exception as e:
             logger.exception(f"An error occurred: {e}")
             time.sleep(int(SLEEP_DURATION))
