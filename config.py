@@ -32,5 +32,5 @@ LLM_PROMPT_TEMPLATE = (
     "use casual tone as if it were a good friend over the internet"
 )
 # Set a range for sleep duration (in seconds)
-SLEEP_DURATION_MAX = 300   # 5 minutes
-
+SLEEP_DURATION_MAX = 900  
+SLEEP_DURATION_MIN = 300 
