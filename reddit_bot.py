@@ -95,8 +95,10 @@ if __name__ == "__main__":
             sub_name = get_next_subreddit()
             logger.info(f"Processing subreddit: r/{sub_name}")
             replied = process_comments_in_subreddit(reddit_instance, sub_name, comments_replied_to)
-            logger.info(f"Sleeping for {SLEEP_DURATION} seconds...")
-            time.sleep(int(SLEEP_DURATION))
+            sleep_time = random.randint(SLEEP_DURATION_MIN, SLEEP_DURATION_MAX)
+            logger.info(f"Sleeping for {sleep_time} seconds...")
+            time.sleep(sleep_time)
+
     except Exception as e:
         print(f"CRITICAL ERROR: {e}")
         import traceback; traceback.print_exc()
