@@ -1,4 +1,6 @@
 import os
+import random
+
 
 REDDIT_USERNAME = os.environ["REDDIT_USERNAME"]
 REDDIT_PASSWORD = os.environ["REDDIT_PASSWORD"]
@@ -29,5 +31,6 @@ LLM_PROMPT_TEMPLATE = (
     "avoid using the em dash (—) at all times. not negotiable."
     "use casual tone as if it were a good friend over the internet"
 )
+# Set a range for sleep duration (in seconds)
+SLEEP_DURATION_MAX = 300   # 5 minutes
 
-SLEEP_DURATION = 10
