@@ -11,15 +11,54 @@ REDDIT_USER_AGENT = os.environ["REDDIT_USER_AGENT"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 TARGET_SUBREDDITS = [
-    "ChatGPT", "ArtificialIntelligence", "PromptEngineering", "Automation",
-    "Notion", "Productivity", "ObsidianMD", "SideProject", "Entrepreneur", "SideHustle",
-    "Gumroad", "Passive_Income", "SaaS", "InternetIsBeautiful", "Copywriting", "ContentCreators",
-    "SocialMedia", "NoCode", "TechSupport", "Freelance", "SmallBusiness", "LifeProTips",
-    "GetDisciplined", "SelfImprovement", "Workspaces"
+    "WeAreTheMusicMakers",
+    "MakingHipHop",
+    "TrapProduction",
+    "ShareYourMusic",
+    "ThisIsOurMusic",
+    "BedroomBands",
+    "LoFiHipHop",
+    "PluggNB",
+    "FutureBeatProducers",
+    "NewMusic",
+    "LetsHearYourMusic",
+    "musicpromotion",
+    "indieheads",         # be careful, only on “Self-Promo Saturday”
+    "musicians",
+    "MusicCritique",      # only with feedback requests
+    "Songwriters",
+    "MusicInTheMaking",   # for works-in-progress
 ]
 
+PROMO_THREADS = {
+      "MakingHipHop": ["showcase sunday"],
+    "WeAreTheMusicMakers": ["feedback friday", "screenshot saturday"],
+    "ShareYourMusic": ["daily share thread"],
+    "indieheads": ["self-promo saturday"],
+    "MusicCritique": ["weekly critique thread"],
+}
+
 TRIGGER_WORDS = [
-    "workflow", "automation", "template", "prompt", "system", "ai", "streamline", "optimize"
+    "looking for beats",
+    "i need beats",
+    "any beatmakers?"
+    "type beat?",
+    "instrumental recommendations",
+    "pluggnb",
+    "jerk beats",
+    "hoodtrap beats",
+    "who wants to collab?",
+    "any producers here",
+    "share your beats",
+    "feedback",
+    "new music friday",
+    "can i get some feedback",
+    "need new instrumentals",
+    "any new tracks",
+    "drop your music",
+    "let's hear your music",
+    "showcase your work",
+
 ]
 
 LLM_PROMPT_TEMPLATE = (
