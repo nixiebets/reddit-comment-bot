@@ -61,6 +61,18 @@ TRIGGER_WORDS = [
 
 ]
 
+REPLY_TEMPLATES = [
+    "Hey! If you're into {genre}, check out my latest on Traktrain: {link} — always appreciate feedback!",
+    "Just dropped some new {genre} beats here: {link} — let me know what you think!",
+    "Producer here! If you want {artist} style beats, check my page: {link}",
+    "Looking for feedback on my recent {genre} project: {link}",
+    "Need new type beats? My Traktrain stays updated: {link}",
+]
+# Your main genres/styles and artist names
+GENRES = ["pluggnb", "trap", "lofi", "jerk", "ambient jerk", "rnb jerk", "new jazz"]
+ARTISTS = ["Playboi Carti", "Lawsy", "2hollis", "bibi trickz", "skaiwater", "lunchbox", "amir.pr0d",]
+TRAKTRAIN_LINK = "https://traktrain.com/nixie_yung"
+
 LLM_PROMPT_TEMPLATE = (
     "You're a helpful automation expert on Reddit. "
     "Someone just posted this comment: \"{comment_body}\"\n\n"
