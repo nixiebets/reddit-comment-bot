@@ -62,11 +62,11 @@ TRIGGER_WORDS = [
 ]
 
 REPLY_TEMPLATES = [
-    "Hey! If you're into {genre}, check out my latest on Traktrain: {link} — always appreciate feedback!",
-    "Just dropped some new {genre} beats here: {link} — let me know what you think!",
-    "Producer here! If you want {artist} style beats, check my page: {link}",
-    "Looking for feedback on my recent {genre} project: {link}",
-    "Need new type beats? My Traktrain stays updated: {link}",
+    "reviewed this page recently, really unique {genre} beats. maybe you'll dig it {link}",
+    "my homie just dropped some wild beats, you gotta peep it {link}",
+    "traktrain always has weird niche beats.. {link}.",
+    "Looking for feedback on my homies {genre} type beats : {link}",
+    "lookingb for new {genre} type beats thought this producer slept on: {link}",
 ]
 # Your main genres/styles and artist names
 GENRES = ["pluggnb", "trap", "lofi", "jerk", "ambient jerk", "rnb jerk", "new jazz"]
