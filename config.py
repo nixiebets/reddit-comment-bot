@@ -12,7 +12,6 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 TARGET_SUBREDDITS = [
     "WeAreTheMusicMakers",
-    "MakingHipHop",
     "TrapProduction",
     "ShareYourMusic",
     "ThisIsOurMusic",
